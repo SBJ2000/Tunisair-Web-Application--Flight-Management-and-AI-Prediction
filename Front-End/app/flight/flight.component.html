@@ -1,0 +1,353 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color:white;">Flights Manager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" style="margin-right: 10px;">
+                <button class="btn btn-secondary" *ngIf="hasRole('ROLE_ADMIN')" routerLink="/admindashboard">Users</button>
+            </li>
+            <li class="nav-item active" style="margin-right: 10px;">
+                <a class="btn btn-secondary" routerLink="/pilote">Pilotes</a>
+            </li>
+            <li class="nav-item active" style="margin-right: 10px;">
+              <button class="btn btn-secondary" routerLink="/copilote">Copilotes</button>
+            </li>
+            <li class="nav-item active" style="margin-right: 10px;">
+                <button class="btn btn-secondary" routerLink="/staff">Staff</button>
+            </li>
+            <li class="nav-item active" style="margin-right: 10px;">
+              <button class="btn btn-secondary" routerLink="/airlinecateringcompany">Restauration Compagnies</button>
+            </li>
+            <li class="nav-item active" style="margin-right: 10px;">
+                <a class="btn btn-secondary" routerLinkActive="active">Flights</a>
+            </li>
+          </ul>
+          
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchFlight(key.value)" #key="ngModel" ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search Flights..." required>
+       </form>
+       <button class="btn btn-primary" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+  <div class="container" id="main-container">
+    <button type="button" id="add-flight-form" class="btn btn-secondary" data-toggle="modal" data-target="#addFlightModal" *ngIf="hasRole('ROLE_ADMIN') || hasRole('ROLE_MODERATOR')">Add Flight</button>
+    <table class="table table-dark">
+      <thead>
+        <tr class="title-row">
+            <th colspan="11" class="text-center" *ngIf="hasRole('ROLE_ADMIN') || hasRole('ROLE_MODERATOR')">
+                Flights
+              </th>
+              <th colspan="9" class="text-center" *ngIf="!hasRole('ROLE_ADMIN') && !hasRole('ROLE_MODERATOR') && hasRole('ROLE_USER')">
+                Flights
+              </th>
+          </tr>
+        <tr>
+          <th scope="col">Schedule</th>
+          <th scope="col">Departure City</th>
+          <th scope="col">Destination City</th>
+          <th scope="col">Type</th>
+          <th scope="col">Pilot</th>
+          <th scope="col">Co-pilot</th>
+          <th scope="col">Staffs</th>
+          <th scope="col">Catering Companies</th>
+          <th scope="col" *ngIf="hasRole('ROLE_ADMIN') || hasRole('ROLE_MODERATOR')">Edit</th>
+          <th scope="col" *ngIf="hasRole('ROLE_ADMIN') || hasRole('ROLE_MODERATOR')">Delete</th>
+          <th scope="col">Delay Prediction</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let flight of flights">
+            <td><h5>{{ flight?.schedule | date:'medium' }}</h5></td>
+
+          <td>{{flight?.departureCity}}</td>
+          <td>{{flight?.destinationCity}}</td>
+          <td>{{flight?.type}}</td>
+          <td>{{flight?.pilot?.name}}</td>
+          <td>{{flight?.copilot?.name}}</td>
+          <td>
+            <ul>
+              <li *ngFor="let staff of flight.staffs">{{staff.name}}</li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li *ngFor="let cateringCompany of flight.cateringCompanies">{{cateringCompany.name}}</li>
+            </ul>
+          </td>
+          <td *ngIf="hasRole('ROLE_ADMIN') || hasRole('ROLE_MODERATOR')">
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-info" (click)="onOpenModal(flight, 'edit')">Edit</button>
+            </div>
+          </td>
+          <td *ngIf="hasRole('ROLE_ADMIN') || hasRole('ROLE_MODERATOR')">
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-danger" (click)="onOpenModal(flight, 'delete')">Delete</button>
+            </div>
+          </td>
+          <td>
+            <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-primary" (click)="onOpenModal(flight, 'prediction')">IA Prediction</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Add Flight Modal -->
+  <div class="modal fade" id="addFlightModal" tabindex="-1" role="dialog" aria-labelledby="addFlightModalLabel" aria-hidden="true" #addFlightModal>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addFlightModalLabel">Add Flight</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (submit)="onAddFlight(addForm)" #addForm="ngForm">
+            <div class="form-group">
+              <label for="schedule">Schedule:</label>
+              <input type="datetime-local" class="form-control" id="schedule" name="schedule" ngModel required>
+            </div>
+            <div class="form-group">
+                <label for="departureCity">Departure City:</label>
+                <select class="form-control" id="departureCity" name="departureCity" ngModel required>
+                  <option *ngFor="let city of depcities" [value]="city">{{ city }}</option>
+            </select>
+              </div>              
+            <div class="form-group">
+              <label for="destinationCity">Destination City:</label>
+              <select class="form-control" id="destinationCity" name="destinationCity" ngModel required>
+                <option *ngFor="let city of Arrcities" [value]="city">{{ city }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+                <label for="flightType">Flight Type:</label>
+                <select class="form-control" id="flightType" name="flightType" [(ngModel)]="addForm.value.flightType" required>
+                  <option value="DIRECT">Direct</option>
+                  <option value="TRANSIT">Transit</option>
+                  <option value="MARCHANDISE">Marchandise</option>
+                </select>
+            </div>              
+            <label for="pilot">Pilot:</label>
+            <select class="form-control" id="pilot" name="pilot" [(ngModel)]="addForm.value.pilot" required>
+                <option *ngFor="let pilot of pilotes" [ngValue]="pilot">{{ pilot.name }}</option>
+              </select>
+            
+            <label for="copilot">Copilot:</label>
+            <select class="form-control" id="copilot" name="copilot" [(ngModel)]="addForm.value.copilot" required>
+                <option *ngFor="let copilot of copilotes" [ngValue]="copilot">{{ copilot.name }}</option>
+              </select>
+            <div class="form-group">
+                <label>Staff:</label>
+                <div *ngFor="let staff of staffs">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [id]="'staff-' + staff.id" [name]="'staff-' + staff.id" [checked]="isStaffSelected(staff)" (change)="toggleStaffSelection(staff)">
+                    <label class="form-check-label" [for]="'staff-' + staff.id">{{staff.name}}</label>
+                  </div>
+                </div>
+              </div>
+                                    
+              <div class="form-group">
+                <label>Catering Companies:</label>
+                <div *ngFor="let company of airlineCateringCompanies">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" [id]="'company-' + company.id" [name]="'company-' + company.id" [checked]="isCompanySelected(company)" (change)="toggleCompanySelection(company)">
+                    <label class="form-check-label" [for]="'company-' + company.id">{{company.name}}</label>
+                  </div>
+                </div>
+              </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Add</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Edit Flight Modal -->
+<div class="modal fade" id="updateFlightModal" tabindex="-1" role="dialog" aria-labelledby="editFlightModalLabel" aria-hidden="true" #editFlightModal>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editFlightModalLabel">Edit Flight</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form  #editForm="ngForm">
+                <div class="form-group">
+                  <label for="schedule">Schedule:</label>
+                  <input type="date" class="form-control" id="schedule" name="schedule" [(ngModel)]="editFlight.schedule" required>
+                </div>
+                <div class="form-group">
+                  <label for="departureCity">Departure City:</label>
+                  <div class="form-group">
+                    <select class="form-control" id="departureCity" name="departureCity" [(ngModel)]="editFlight.departureCity" required>
+                      <option *ngFor="let city of depcities" [value]="city">{{ city }}</option>
+                </select>
+                  </div> 
+                </div>
+                <div class="form-group">
+                  <label for="destinationCity">Destination City:</label>
+                  <select class="form-control" id="destinationCity" name="destinationCity" [(ngModel)]="editFlight.destinationCity" required>
+                    <option *ngFor="let city of Arrcities" [value]="city">{{ city }}</option>
+                  </select>
+                </div>
+                <label for="pilot">Pilot:</label>
+                <select class="form-control" id="pilot" name="pilot" [(ngModel)]="editFlight.pilot" required>
+                  <option *ngFor="let pilot of pilotes" [ngValue]="pilot">{{ pilot.name }}</option>
+                </select>
+              
+                <label for="copilot">Copilot:</label>
+                <select class="form-control" id="copilot" name="copilot" [(ngModel)]="editFlight.copilot" required>
+                  <option *ngFor="let copilot of copilotes" [ngValue]="copilot">{{ copilot.name }}</option>
+                </select>
+                
+                <div class="form-group">
+                  <label>Staff:</label>
+                  <div *ngFor="let staff of staffs">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [id]="'staff-' + staff.id" [name]="'staff-' + staff.id" [checked]="isStaffSelected(staff)" (change)="toggleStaffSelection(staff)">
+                      <label class="form-check-label" [for]="'staff-' + staff.id">{{ staff.name }}</label>
+                    </div>
+                  </div>
+                </div>
+                                                  
+                <div class="form-group">
+                  <label>Catering Companies:</label>
+                  <div *ngFor="let company of airlineCateringCompanies">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [id]="'company-' + company.id" [name]="'company-' + company.id" [checked]="isCompanySelected(company)" (change)="toggleCompanySelection(company)">
+                      <label class="form-check-label" [for]="'company-' + company.id">{{ company.name }}</label>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="modal-footer">
+                  <button type="submit" (click)="onUpdateFlight(editForm.value)" class="btn btn-primary">Save Changes</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </form>              
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Delete Modal -->
+<div class="modal fade" id="deleteFlightModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModelLabel">Delete Flight</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete flight {{deleteFlight.id}}?</p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button *ngIf="deleteFlight" (click)="onDeleteFlight(deleteFlight.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Prediction Flight Modal -->
+<div class="modal fade" id="predictionFlightModal" tabindex="-1" role="dialog" aria-labelledby="predictionFlightModalLabel" aria-hidden="true" #predictionFlightModal>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="predictionFlightModalLabel">Predict Flight</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form  #predictionForm="ngForm">
+                <div class="form-group">
+                  <label for="schedule">Departure Date:</label>
+                  <input type="text" class="form-control" id="schedule" name="schedule" [(ngModel)]="editFlight.schedule" required disabled>
+                </div>
+                <div class="form-group">
+                  <label for="departureCity">Departure City:</label>
+                  <input type="text" class="form-control" id="departureCity" name="departureCity" [(ngModel)]="editFlight.departureCity" required disabled>
+                </div>
+                <div class="form-group">
+                  <label for="destinationCity">Destination City:</label>
+                  <input type="text" class="form-control" id="destinationCity" name="destinationCity" [(ngModel)]="editFlight.destinationCity" required disabled>
+
+                </div>
+                <label for="pilot">Pilot:</label>
+                <input type="text" class="form-control" id="pilot" name="pilot" [(ngModel)]="editFlight.pilot.name" required disabled>
+
+                <label for="copilot">Copilot:</label>
+                <input type="text" class="form-control" id="copilot" name="copilot" [(ngModel)]="editFlight.copilot.name" required disabled>
+
+                <div class="form-group">
+                  <label>Staff:</label>
+                  <div *ngFor="let staff of staffs">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [id]="'staff-' + staff.id" [name]="'staff-' + staff.id" [checked]="isStaffSelected(staff)" (change)="toggleStaffSelection(staff)" disabled>
+                      <label class="form-check-label" [for]="'staff-' + staff.id">{{ staff.name }}</label>
+                    </div>
+                  </div>
+                </div>
+                                                  
+                <div class="form-group">
+                  <label>Catering Companies:</label>
+                  <div *ngFor="let company of airlineCateringCompanies">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" [id]="'company-' + company.id" [name]="'company-' + company.id" [checked]="isCompanySelected(company)" (change)="toggleCompanySelection(company)" disabled>
+                      <label class="form-check-label" [for]="'company-' + company.id">{{ company.name }}</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="arrdate">Arrival Date:</label>
+                    <input type="datetime-local" class="form-control" id="arrdate" name="arrdate" required>
+                </div>
+                <div class="form-group">
+                    <label for="Aircraftcode">Air Craft Code:</label>
+                    <select class="form-control" id="Aircraftcode" name="Aircraftcode" required>
+                      <option *ngFor="let aircraftcode of Aircraftcodes" [value]="aircraftcode" >{{ aircraftcode }}</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" (click)="PredictFlight(predictionForm.value)" class="btn btn-primary">Predict with IA</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </form>              
+        </div>
+           <!-- Affichez les prédictions dans votre template HTML -->
+           <div *ngIf="predictions" class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div  class="card" style="width: 18rem;">
+              <img src="../../assets/delay.jpg" class="card-img-top" alt="Delay Image">
+              <div class="card-body">
+                <h3 class="card-title text-center">Flight Delay Predictions</h3>
+                <div *ngIf="predictions">
+                  <ul>
+                    <li *ngFor="let prediction of predictions">Your plan may have a delay of <strong>{{ prediction.toFixed(2) }}</strong> Hours</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+      </div>
+    </div>
+  </div>
+  
+  <!-- Notification for no flights -->
+  <div *ngIf="flights?.length === 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">No Flights!</h4>
+      <p>No flights were found.</p>
+    </div>
+  </div>
+  
