@@ -1,6 +1,6 @@
 # Project Name
 
-[![Project Logo](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/logo.png)]
+![Project Logo](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/logo.png)
 
 [![Build Status](https://img.shields.io/travis/username/repo.svg)](https://travis-ci.org/username/repo)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
