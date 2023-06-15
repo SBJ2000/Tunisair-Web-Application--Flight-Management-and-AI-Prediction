@@ -76,12 +76,17 @@ Inside the User Dashboard :
 For the AI Production it is integrated with the front End Interface just like this :
 ![IA Predection Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/IAPrediction.png)
 
-## Additional Information
+## Conclusion
+In conclusion, the Tunisair Web Application for Flight Management and AI Prediction is a comprehensive project that aims to streamline and enhance the management of flights, cabin crew, and in-flight catering partners. The application incorporates advanced technologies such as Angular, Spring Boot, JWT authentication, MySQL database, and Catboost Regressor AI model.
 
-Include any additional information about your project here, such as:
+The README file provides an overview of the project, including its objectives and key features. It also outlines the prerequisites for setting up the development environment, such as the required JDK, Spring Boot, Angular CLI, JWT, MySQL, IDEs (IntelliJ IDEA and Visual Studio Code), Catboost Regressor, Git, and package managers (Maven and npm).
 
-- Troubleshooting tips
-- Frequently Asked Questions (FAQ)
-- Links to documentation
-- Contact information for support
+The installation section highlights the necessary dependencies for both the Spring Boot backend and Angular frontend. It provides an insight into the project structure and the dependencies required to run the application successfully.
+
+The usage section showcases the application through screenshots, giving a glimpse of the login page and different dashboards for the admin, moderator, and user roles. Additionally, it demonstrates the integration of AI prediction within the frontend interface.
+
+The README file serves as a comprehensive guide for developers and users alike, providing the necessary information to understand, install, and use the Tunisair Web Application. It enables a smooth onboarding process and facilitates collaboration among team members.
+
+Overall, the project demonstrates the effective utilization of various technologies and tools to create a robust web application for flight management, while incorporating AI for flight delay prediction.
+
 
