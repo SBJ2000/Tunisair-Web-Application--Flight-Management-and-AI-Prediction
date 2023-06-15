@@ -18,8 +18,31 @@ The application is designed for 3 types of users , and each of them has a specif
 
 ### Prerequisites
 
-List any prerequisites or dependencies required to run your project.
+![JDK](https://img.shields.io/badge/JDK-1.8-blue) 
 
+    Java Development Kit (JDK): Install JDK to run Spring Boot, as it is a Java-based framework.
+
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-2.5.0-green)
+
+    Spring Boot: Set up and configure Spring Boot for your backend development. You can use Spring Initializr to generate a new Spring Boot project.
+![Angular](https://img.shields.io/badge/Angular-12.0.0-red)
+
+     Angular CLI: Install Angular CLI to create and manage your Angular frontend application. It provides useful commands for development and building Angular projects.
+![JWT](https://img.shields.io/badge/Authentication-JWT-green)
+
+    JSON Web Tokens (JWT): Familiarize yourself with the concepts of JWT and how to implement JWT-based authentication and authorization in your Spring Boot backend and Angular frontend.
+
+Database: Determine the database you will use for your project. Spring Boot supports various databases, such as MySQL, PostgreSQL, Oracle, and H2 (for development purposes), in this project I used MySQL Datebase.
+
+IDE (Integrated Development Environment): Choose an IDE of your preference for coding. Some popular options for Java and Angular development include IntelliJ IDEA, Eclipse, and Visual Studio Code.
+
+
+
+Catboost Regressor: Understand the Catboost Regressor model and its implementation. Make sure you have the necessary Python libraries and dependencies installed for working with Catboost, such as scikit-learn and Catboost itself.
+
+Git: Use Git for version control and managing your project's source code. Set up a Git repository to track changes and collaborate with other team members if needed.
+
+Package Managers: Use Maven for managing dependencies in your Spring Boot project and npm (Node Package Manager) for managing dependencies in your Angular project.
 ### Installation
 
 Provide step-by-step instructions on how to install your project. Make sure to include any necessary commands or configurations.
