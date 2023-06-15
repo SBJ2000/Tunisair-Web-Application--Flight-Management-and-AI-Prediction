@@ -62,19 +62,19 @@ And in the angular project you need to have this ones:
 
 Let's have a look on the project with some screenshoots from inside : 
 At the begining, you will see the login page :
-![Login Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Angular%Login.png)
+![Login Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Login.png)
 
 Inside the Admin Dashboard :
-![Admin Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Angular%Admin.png)
+![Admin Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Admin.png)
 
 Inside the Moderator Dashboard :
-![Moderator Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Angular%Moderator.png)
+![Moderator Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Moderator.png)
 
 Inside the User Dashboard :
-![User Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Angular%User.png)
+![User Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/User.png)
 
 For the AI Production it is integrated with the front End Interface just like this :
-![IA Predection Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Angular%IAPrediction.png)
+![IA Predection Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/IAPrediction.png)
 
 ## Additional Information
 
