@@ -12,6 +12,7 @@ The file also delves into the architecture and design of the application, offeri
 
 ### Users & roles :
 The application is designed for 3 types of users , and each of them has a specific role:
+![Roles Details](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/roles.png)
 
 ## Installation & Usage
 
