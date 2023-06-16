@@ -55,9 +55,13 @@ The application is designed for 3 types of users , and each of them has a specif
 For the back end part using Spring Boot , you need to have these dependecies :
 ![Spring Boot Dependecies](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Spring%20Boot%20Dependecies.png)
 
-And in the angular project you need to have this ones:
+And to install them you can use this commande line: "mvn clean install", then run your Back-end application using  the start button from the IDE.
+
+
+In the angular project you need to have this ones:
 ![Angular Dependecies](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/Angular%20Dependencies.png)
 
+And to install them you can use the commande line : "npm install", then you can run your application using the commaned: "ng serve".
 ### Usage
 
 Let's have a look on the project with some screenshoots from inside : 
