@@ -80,6 +80,9 @@ Inside the User Dashboard :
 For the AI Production it is integrated with the front End Interface just like this :
 ![IA Predection Page](https://github.com/SBJ2000/Tunisair-Web-Application--Flight-Management-and-AI-Prediction/blob/main/Images/IAPrediction.png)
 
+## Additional Information
+For additionnal information you can read the report in the report folder.
+
 ## Conclusion
 In conclusion, the Tunisair Web Application for Flight Management and AI Prediction is a comprehensive project that aims to streamline and enhance the management of flights, cabin crew, and in-flight catering partners. The application incorporates advanced technologies such as Angular, Spring Boot, JWT authentication, MySQL database, and Catboost Regressor AI model.
 
